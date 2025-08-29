@@ -1,0 +1,27 @@
+name: Build Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        node-verison: [14.x,16.x,18.x]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "use node-verison ${{matrix.node-version}}"
+        uses: actions/setup-node@v3
+        with:
+          node-verison: ${{matrix.node-verison}}
+          cache: "npm"
+      - name: "installing deps"
+        run: npm i
+      - name: "building app"
+        run: npm run build  
